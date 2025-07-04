@@ -1,4 +1,4 @@
-# rubiks_solver_app/backend/app.py
+
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -9,11 +9,11 @@ CORS(app)
 
 def actual_solve_logic(cube_string):
     try:
-        # Normalize the string to handle potential encoding issues
+    
         normalized_cube_string = cube_string.encode('utf-8').decode('utf-8')
         print(f"DEBUG: Normalized string length: {len(normalized_cube_string)} chars for string: '{normalized_cube_string}'")
 
-        # This length check is causing the "Invalid cube state format" error if not exactly 54
+        
         if len(normalized_cube_string) != 54:
             print(f"DEBUG: Input length mismatch. Got {len(normalized_cube_string)} chars for string: '{normalized_cube_string}'")
             return "Error: Invalid cube state format. Expected 54 characters."

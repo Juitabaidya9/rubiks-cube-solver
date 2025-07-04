@@ -1,4 +1,4 @@
-// Solve Button Handler
+
 document.getElementById("solveButton").addEventListener("click", async function () {
     const cubeState = document.getElementById("cubeInput").value.trim();
     const solutionBox = document.getElementById("solution");
@@ -35,7 +35,7 @@ document.getElementById("solveButton").addEventListener("click", async function 
     }
 });
 
-// Animation Function
+
 function animateMoves(moves, container) {
     let index = 0;
 
@@ -53,10 +53,10 @@ function animateMoves(moves, container) {
 
         container.appendChild(span);
         index++;
-    }, 600); // 600ms per move
+    }, 600); 
 }
 
-// Scramble Generator Button Handler
+
 document.getElementById("scrambleButton").addEventListener("click", () => {
     const moves = ["R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2", "B", "B'", "B2"];
     let scramble = [];
@@ -66,7 +66,7 @@ document.getElementById("scrambleButton").addEventListener("click", () => {
         let move;
         do {
             move = moves[Math.floor(Math.random() * moves.length)];
-        } while (move[0] === prev); // avoid repeating same face
+        } while (move[0] === prev); 
         scramble.push(move);
         prev = move[0];
     }

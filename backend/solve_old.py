@@ -1,5 +1,3 @@
-# rubiks_solver_app/backend/solve.py
-
 from app import app # This line is correct
 from flask import request, jsonify
 
