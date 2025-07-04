@@ -1,0 +1,3 @@
+# rubiks_solver_app/backend/requirements.txt
+Flask
+Flask-Cors

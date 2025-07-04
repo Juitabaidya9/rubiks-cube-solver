@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubik's Cube Solver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Rubik's Cube Solver</h1>
+        <p>Enter the cube state as a 54-character string (e.g., UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB for solved).</p>
+
+        <textarea id="cubeInput" placeholder="Enter cube state string here..."></textarea>
+
+        <button id="solveButton">Solve Cube</button>
+        <button id="scrambleButton">Generate Scramble</button>
+
+        <div class="solution-box">
+            Solution: <span id="solution"></span>
+        </div>
+    </div>
+    <script src="script.js"></script> </body>
+</html>

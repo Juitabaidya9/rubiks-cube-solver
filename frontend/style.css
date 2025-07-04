@@ -1,0 +1,123 @@
+/* rubiks_solver_app/frontend/style.css */
+
+body {
+    font-family: 'Roboto', 'Open Sans', Arial, sans-serif; /* Added modern fonts */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #282c34; /* Darker background */
+    margin: 0;
+    color: #e0e0e0; /* Light text color for contrast */
+}
+
+.container {
+    background-color: #3a4049; /* Slightly lighter dark background for the container */
+    padding: 40px; /* Increased padding */
+    border-radius: 10px; /* Slightly more rounded corners */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+    text-align: center;
+    width: 90%;
+    max-width: 550px; /* Slightly wider max-width */
+    border: 1px solid #4a515c; /* Subtle border */
+}
+
+h1 {
+    color: #61dafb; /* A vibrant blue for the heading */
+    margin-bottom: 25px; /* More space below heading */
+    font-size: 2.2em; /* Slightly larger heading */
+}
+
+p {
+    color: #cccccc; /* Lighter gray for paragraph text */
+    margin-bottom: 30px; /* More space below paragraph */
+    line-height: 1.7;
+}
+
+textarea {
+    width: calc(100% - 24px); /* Adjust width for padding/border */
+    padding: 12px; /* Increased padding */
+    margin-bottom: 25px; /* More space below input */
+    border: 1px solid #555; /* Darker border for input */
+    border-radius: 6px; /* Slightly more rounded */
+    font-size: 1.1em; /* Slightly larger font */
+    background-color: #444b56; /* Dark background for input */
+    color: #ffffff; /* White text in input */
+    resize: vertical;
+    min-height: 90px; /* Slightly taller min-height */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Inner shadow */
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #61dafb; /* Highlight border on focus */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(97, 218, 251, 0.5); /* Outer glow on focus */
+}
+
+button {
+    background-color: #61dafb; /* Vibrant blue button */
+    color: #282c34; /* Dark text on button */
+    padding: 15px 30px; /* More padding for a larger button */
+    border: none;
+    border-radius: 8px; /* More rounded button */
+    font-size: 1.2em; /* Larger font */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added transform and shadow transitions */
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Button shadow */
+}
+
+button:hover {
+    background-color: #4ac1e2; /* Slightly darker on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* More shadow on hover */
+}
+
+button:active {
+    transform: translateY(0); /* Press effect */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Reduced shadow on active */
+}
+
+.solution-box {
+    margin-top: 40px; /* More space above solution box */
+    padding: 20px; /* More padding */
+    border: 1px solid #5a626f; /* Darker border */
+    border-radius: 8px; /* More rounded */
+    background-color: #4a515c; /* Dark background for solution box */
+    text-align: left;
+    font-weight: bold;
+    color: #e0e0e0; /* Light text for solution box */
+    min-height: 60px; /* Ensure space */
+    display: flex;
+    align-items: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Inner shadow */
+}
+
+/* Styles for solution text based on script.js */
+#solution {
+    margin-left: 10px; /* Increased space after "Solution:" */
+    color: #98fb98; /* A pleasant green for success */
+    flex-grow: 1;
+}
+
+/* Optional: Add a subtle scrollbar style for dark theme */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #3a4049;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #61dafb;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4ac1e2;
+}
