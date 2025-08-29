@@ -1,109 +1,167 @@
-// Add character counter
-const cubeInput = document.getElementById("cubeInput");
-const charCount = document.createElement("div");
-charCount.className = "char-count";
-charCount.textContent = "0/54 characters";
-cubeInput.parentNode.insertBefore(charCount, cubeInput.nextSibling);
 
-cubeInput.addEventListener("input", function() {
+const cubeInput = document.getElementById('cubeInput');
+const solveButton = document.getElementById('solveButton');
+const scrambleButton = document.getElementById('scrambleButton');
+const solutionBox = document.getElementById('solution');
+const charCount = document.querySelector('.char-count');
+
+cubeInput.addEventListener('input', function() {
     const count = this.value.length;
-    charCount.textContent = `${count}/54 characters`;
-    charCount.style.color = count === 54 ? "#00ff00" : count > 54 ? "#ff4444" : "#888";
+    charCount.textContent = `${count}/54`;
+    charCount.style.color = count === 54 ? '#22c55e' : count > 54 ? '#ef4444' : '#6b7280';
+    
+    
+    if (count > 54) {
+        this.value = this.value.slice(0, 54);
+    }
 });
 
-document.getElementById("solveButton").addEventListener("click", async function () {
-    const cubeState = document.getElementById("cubeInput").value.trim();
-    const solutionBox = document.getElementById("solution");
-
+solveButton.addEventListener('click', async function() {
+    const cubeState = cubeInput.value.trim();
+    
     if (cubeState.length !== 54) {
-        solutionBox.innerHTML = "❌ Please enter exactly 54 characters.";
+        showError('Please enter exactly 54 characters');
         return;
     }
 
-    // Validate characters
-    const validChars = /^[URFDLB]+$/;
-    if (!validChars.test(cubeState)) {
-        solutionBox.innerHTML = "❌ Invalid characters. Only U, R, F, D, L, B allowed.";
+    if (!/^[URFDLB]+$/.test(cubeState)) {
+        showError('Only U, R, F, D, L, B characters are allowed');
         return;
     }
 
-    solutionBox.innerHTML = "⏳ Solving...";
-
+    showLoading();
+    
     try {
-        // Create proper JSON object with double quotes
-        const jsonData = {
-            cube: cubeState
-        };
-
-        const response = await fetch("http://127.0.0.1:5000/solve", {
-            method: "POST",
+        const response = await fetch('http://127.0.0.1:5000/solve', {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(jsonData),
+            body: JSON.stringify({ cube: cubeState })
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            if (data.solution.includes("Error")) {
-                solutionBox.innerHTML = "❌ " + data.solution;
+            if (data.solution.includes('Error')) {
+                showError(data.solution);
+            } else if (data.solution.includes('already solved')) {
+                showSuccess(data.solution, true);
             } else {
-                const moves = data.solution.trim().split(" ");
-                solutionBox.innerHTML = "✅ Solution:<br><br>";
-                animateMoves(moves, solutionBox);
+                showSolution(data.solution);
             }
         } else {
-            solutionBox.innerHTML = "❌ " + (data.error || "Failed to solve.");
+            showError(data.error || 'Failed to solve cube');
         }
-
     } catch (error) {
-        console.error("Fetch error:", error);
-        solutionBox.innerHTML = "❌ Error connecting to server. Make sure Flask is running.";
+        console.error('Fetch error:', error);
+        showError('Cannot connect to server. Make sure Flask is running on port 5000');
     }
 });
 
-function animateMoves(moves, container) {
-    let index = 0;
-    container.innerHTML = "✅ Solution:<br><br>";
 
-    const interval = setInterval(() => {
-        if (index >= moves.length) {
-            clearInterval(interval);
-            return;
-        }
-
-        const span = document.createElement("span");
-        span.textContent = moves[index] + " ";
-        span.style.paddingRight = "6px";
-        span.style.color = "#00ff00";
-        span.style.fontWeight = "bold";
-        span.style.fontSize = "1.1em";
-
-        container.appendChild(span);
-        index++;
-    }, 600);
-}
-
-document.getElementById("scrambleButton").addEventListener("click", () => {
+scrambleButton.addEventListener('click', () => {
     const moves = ["R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2", "B", "B'", "B2"];
     let scramble = [];
-    let prev = "";
+    let prev = '';
 
     for (let i = 0; i < 20; i++) {
         let move;
         do {
             move = moves[Math.floor(Math.random() * moves.length)];
-        } while (move[0] === prev); 
+        } while (move[0] === prev);
         scramble.push(move);
         prev = move[0];
     }
 
-    const solutionBox = document.getElementById("solution");
-    solutionBox.innerHTML = "🔀 Scramble:<br><br>" + scramble.join(" ");
+    solutionBox.innerHTML = `
+        <div style="color: #f59e0b; margin-bottom: 10px;">🔀 Generated Scramble:</div>
+        <div class="solution-moves">${scramble.map(m => `<span class="move">${m}</span>`).join('')}</div>
+        <div style="margin-top: 15px; color: #6b7280; font-size: 0.9em;">
+            Copy this scramble and try to solve it!
+        </div>
+    `;
+
     
-    // Auto-fill the input with a solved state for testing
-    document.getElementById("cubeInput").value = "UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB";
-    charCount.textContent = "54/54 characters";
-    charCount.style.color = "#00ff00";
+    cubeInput.value = 'UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB';
+    charCount.textContent = '54/54';
+    charCount.style.color = '#22c55e';
 });
+
+
+function showLoading() {
+    solutionBox.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="loading"></div>
+            <span>Analyzing cube state...</span>
+        </div>
+    `;
+}
+
+function showError(message) {
+    solutionBox.innerHTML = `
+        <div style="color: #ef4444;">
+            <span style="font-size: 1.2em;">❌</span>
+            ${message}
+        </div>
+    `;
+}
+
+function showSuccess(message, isSolved = false) {
+    solutionBox.innerHTML = `
+        <div style="color: #22c55e; ${isSolved ? 'animation: cubeRotate 2s ease-in-out;' : ''}">
+            <span style="font-size: 1.2em;">✅</span>
+            ${message}
+        </div>
+    `;
+}
+
+function showSolution(moveString) {
+    const moves = moveString.split(' ');
+    solutionBox.innerHTML = `
+        <div style="color: #10b981; margin-bottom: 15px;">
+            <span style="font-size: 1.2em;">✅</span>
+            Solution found (${moves.length} moves):
+        </div>
+        <div class="solution-moves">${moves.map(m => `<span class="move">${m}</span>`).join('')}</div>
+        <div style="margin-top: 15px; color: #6b7280; font-size: 0.9em;">
+            Click each move to see it animated...
+        </div>
+    `;
+
+    
+    const moveElements = solutionBox.querySelectorAll('.move');
+    moveElements.forEach((moveEl, index) => {
+        moveEl.style.cursor = 'pointer';
+        moveEl.addEventListener('click', () => {
+            highlightMove(moveEl, moves[index]);
+        });
+    });
+}
+
+function highlightMove(element, move) {
+    
+    document.querySelectorAll('.move').forEach(m => {
+        m.style.transform = 'scale(1)';
+        m.style.boxShadow = 'none';
+    });
+    
+    
+    element.style.transform = 'scale(1.1)';
+    element.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.5)';
+    
+   
+    console.log('Animating move:', move);
+}
+
+
+cubeInput.addEventListener('focus', () => {
+    if (cubeInput.value === '') {
+        cubeInput.placeholder = 'Try: UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB';
+    }
+});
+
+
+cubeInput.value = 'UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB';
+charCount.textContent = '54/54';
+charCount.style.color = '#22c55e';
