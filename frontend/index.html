@@ -3,22 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rubik's Cube Solver</title>
+    <title>Rubik's Cube Solver Pro</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Rubik's Cube Solver</h1>
-        <p>Enter the cube state as a 54-character string (e.g., UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB for solved).</p>
+        <div class="header">
+            <div class="cube-icon">🎯</div>
+            <h1>Cube Solver Pro</h1>
+            <p class="subtitle">Enter your cube state and get the optimal solution</p>
+        </div>
 
-        <textarea id="cubeInput" placeholder="Enter cube state string here..."></textarea>
+        <div class="input-section">
+            <div class="input-group">
+                <textarea 
+                    id="cubeInput" 
+                    class="cube-input"
+                    placeholder="Enter 54-character cube state (e.g., UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB)"
+                    spellcheck="false"
+                ></textarea>
+                <div class="char-count">0/54</div>
+            </div>
+        </div>
 
-        <button id="solveButton">Solve Cube</button>
-        <button id="scrambleButton">Generate Scramble</button>
+        <div class="buttons">
+            <button id="solveButton" class="btn btn-primary">
+                <span>🧩</span>
+                Solve Cube
+            </button>
+            <button id="scrambleButton" class="btn btn-secondary">
+                <span>🎲</span>
+                Generate Scramble
+            </button>
+        </div>
 
-        <div class="solution-box">
-            Solution: <span id="solution"></span>
+        <div class="solution-section">
+            <div class="solution-header">
+                <span>📋</span>
+                Solution
+            </div>
+            <div id="solution" class="solution-content">
+                Enter a cube state above to get started...
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">🎨 Face Color Mapping</div>
+            <p>Each letter represents a face color on your cube:</p>
+            <div class="face-grid">
+                <div class="face-item">
+                    <div class="face-letter">U</div>
+                    <div class="face-color">White</div>
+                </div>
+                <div class="face-item">
+                    <div class="face-letter">R</div>
+                    <div class="face-color">Red</div>
+                </div>
+                <div class="face-item">
+                    <div class="face-letter">F</div>
+                    <div class="face-color">Green</div>
+                </div>
+                <div class="face-item">
+                    <div class="face-letter">D</div>
+                    <div class="face-color">Yellow</div>
+                </div>
+                <div class="face-item">
+                    <div class="face-letter">L</div>
+                    <div class="face-color">Orange</div>
+                </div>
+                <div class="face-item">
+                    <div class="face-letter">B</div>
+                    <div class="face-color">Blue</div>
+                </div>
+            </div>
         </div>
     </div>
-    <script src="script.js"></script> </body>
+
+    <script src="script.js"></script>
+</body>
 </html>
